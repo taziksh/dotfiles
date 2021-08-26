@@ -1,0 +1,128 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+alias g='googler'
+alias py='python3'
+
+alias ls='ls --color=auto'
+alias at='alacritty-themes'
+
+alias tmux='tmux -2'
+alias tmux-as='tmux attach-session'
+alias mux='tmuxinator'
+
+PS1='[\u@\h \W]\$ '
+
+export EDITOR='vim'
+# Vim key bindings
+set -o vi
+
+#~/.fonts
+source ~/.fonts/*.sh
+
+#Ruby
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+export PATH=/usr/local/texlive/2021/bin/x86_64-linux:$PATH
+export LD_LIBRARY_PATH=/usr/local/lib/
+export TESSDATA_PREFIX=~/tesseract/tessdata/
+
+export PYTHONPATH=/usr/lib/python3.7/
+#export PYTHONPATH=./$CAFFE_ROOT/python/
+
+lsd () 
+{
+  cd "$@" && ls;
+}
+
+mkcdir ()
+{
+    mkdir -p -- "$1" &&
+      cd -P -- "$1"
+}
+
+# ANDROID REACT NATIVE
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# Added by serverless binary installer
+export PATH="$HOME/.serverless/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export QSYS_ROOTDIR="/home/tazik/.cache/yay/intel_fpga_lite/src/install/quartus/sopc_builder/bin"
+
+PATH="/home/tazik/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/tazik/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/tazik/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/tazik/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/tazik/perl5"; export PERL_MM_OPT;
+
+PATH="/home/tazik/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/tazik/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/tazik/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/tazik/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/tazik/perl5"; export PERL_MM_OPT;
+
+PATH="/home/tazik/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/tazik/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/tazik/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/tazik/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/tazik/perl5"; export PERL_MM_OPT;
+
+PATH="/home/tazik/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/tazik/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/tazik/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/tazik/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/tazik/perl5"; export PERL_MM_OPT;
+
+export TERM=screen-256color
+export http_proxy=''
+export https_proxy=''
+export ftp_proxy=''
+export socks_proxy=''
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/tazik/google-cloud-sdk/path.bash.inc' ]; then . '/home/tazik/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/tazik/google-cloud-sdk/completion.bash.inc' ]; then . '/home/tazik/google-cloud-sdk/completion.bash.inc'; fi
+
+
+# JINA_CLI_BEGIN
+
+## autocomplete
+_jina() {
+  COMPREPLY=()
+  local word="${COMP_WORDS[COMP_CWORD]}"
+
+  if [ "$COMP_CWORD" -eq 1 ]; then
+    COMPREPLY=( $(compgen -W "$(jina commands)" -- "$word") )
+  else
+    local words=("${COMP_WORDS[@]}")
+    unset words[0]
+    unset words[$COMP_CWORD]
+    local completions=$(jina completions "${words[@]}")
+    COMPREPLY=( $(compgen -W "$completions" -- "$word") )
+  fi
+}
+
+complete -F _jina jina
+
+# session-wise fix
+ulimit -n 4096
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# JINA_CLI_END

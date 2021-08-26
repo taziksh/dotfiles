@@ -1,0 +1,111 @@
+call plug#begin('~/.vim/plugged')
+  Plug 'dyng/ctrlsf.vim'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'dense-analysis/ale'
+  Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+  Plug 'dracula/vim', {'as':'dracula'}
+  Plug 'tpope/vim-fugitive'
+  Plug 'preservim/nerdtree'
+  Plug 'szymonmaszke/vimpyter'
+  Plug 'HerringtonDarkholme/yats.vim'
+  "Plug 'yuezk/vim-js'
+  Plug 'pangloss/vim-javascript'
+  Plug 'leafgarland/typescript-vim' " TypeScript syntax
+  Plug 'maxmellon/vim-jsx-pretty'
+  Plug 'jxnblk/vim-mdx-js'
+  Plug 'metakirby5/codi.vim'
+  Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+  Plug 'lervag/vimtex'
+  Plug 'junegunn/goyo.vim'
+  Plug 'junegunn/limelight.vim'
+  Plug 'ferrine/md-img-paste.vim'
+  Plug 'reedes/vim-pencil'
+
+  if has("nvim")
+    Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/denite.nvim'
+    Plug 'dylanaraps/wal.vim'
+  endif
+call plug#end()
+
+if has ("nvim")
+  let g:deoplete#enable_at_startup = 1
+endif
+
+" On startup
+autocmd vimenter * NERDTree
+
+"let g:NERDTreeWinPos = "right"
+let g:NERDTreeWinSize = 30
+
+set rtp+=~/code/tabnine-vim
+
+" colorscheme stuff
+syntax enable 
+
+try
+    "colorscheme deep-space
+    colorscheme dracula
+    "colorscheme wal
+catch
+endtry
+
+"set t_Co=256
+
+set expandtab
+set tabstop=2
+set shiftwidth=2
+" Indent automatically
+set autoindent
+
+"Miscellaneous
+set number
+"set cursorline
+"set cursorcolumn
+set mouse=a
+
+"Search
+set incsearch
+set ignorecase
+set smartcase
+
+"Mappings
+cmap w!! w ! sudo tee > /dev/null %
+
+" set guifont=Monaco\ 20
+" Set font according to system
+if has("mac") || has("macunix")
+    set gfn=IBM\ Plex\ Mono:h14,Hack:h14,Source\ Code\ Pro:h15,Menlo:h15
+elseif has("win16") || has("win32")
+    set gfn=IBM\ Plex\ Mono:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
+elseif has("gui_gtk2")
+    set gfn=IBM\ Plex\ Mono\ 14,:Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
+elseif has("linux")
+    set gfn=IBM\ Plex\ Mono\ 14,:Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
+elseif has("unix")
+    set gfn=Monospace\ 11
+endif
+
+" Clipboard is shared across instances
+set clipboard=unnamedplus
+
+let g:ale_fixers = {
+ \ 'javascript': ['eslint']
+ \ }
+ 
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
+let g:ale_fix_on_save = 1
+
+inoremap jk <Esc>
+
+" AUTOCOMPLETE -- coc.nvim 
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
